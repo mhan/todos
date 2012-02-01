@@ -1,0 +1,4 @@
+.sass-cache/
+tmp/
+Gemfile.lock
+public/
