@@ -1,11 +1,15 @@
-Todos = SC.Application.create();
+minispade.require('todos/vendor/jquery');
+minispade.require('todos/vendor/ember');
+minispade.require('todos/templates/main_view');
 
-Todos.Todo = SC.Object.extend({
+Todos = Ember.Application.create();
+
+Todos.Todo = Em.Object.extend({
   title: null,
   isDone: false
 });
 
-Todos.todosController = SC.ArrayProxy.create({
+Todos.todosController = Em.ArrayProxy.create({
   content: [],
 
   createTodo: function(title) {
@@ -32,7 +36,7 @@ Todos.todosController = SC.ArrayProxy.create({
   }.property('@each.isDone')
 });
 
-Todos.StatsView = SC.View.extend({
+Todos.StatsView = Em.View.extend({
   remainingBinding: 'Todos.todosController.remaining',
 
   remainingString: function() {
@@ -41,7 +45,7 @@ Todos.StatsView = SC.View.extend({
   }.property('remaining')
 });
 
-Todos.CreateTodoView = SC.TextField.extend({
+Todos.CreateTodoView = Em.TextField.extend({
   insertNewline: function() {
     var value = this.get('value');
 
@@ -52,3 +56,6 @@ Todos.CreateTodoView = SC.TextField.extend({
   }
 });
 
+Todos.MainView = Em.View.extend({
+  templateName: 'main_view'
+});
