@@ -2,32 +2,6 @@
 require "rake-pipeline-web-filters"
 require "json"
 
-# Here we define a custom rake-pipeline filter to process our Handlebars
-# templates.
-class HandlebarsFilter < Rake::Pipeline::Filter
-
-  def initialize(&block)
-    # Convert .handlebars file extensions to .js
-    block ||= proc { |input| input.sub(/\.handlebars$/, '.js') }
-    super(&block)
-  end
-
-  def generate_output(inputs, output)
-    inputs.each do |input|
-      # The name of the template is the filename, sans .handlebars
-      # extension
-      name = File.basename(input.path, '.handlebars')
-
-      # Read the file and escape it so it's a valid JS string
-      source = input.read.to_json
-
-      # Write out a JS file that puts the compiled template
-      # into Ember.TEMPLATES, where Ember will find it.
-      output.write "\nEmber.TEMPLATES['#{name}'] = Ember.Handlebars.compile(#{source});\n"
-    end
-  end
-end
-
 # All of our inputs to the pipeline live under the `app/`
 # directory. We could also specify a glob if we wanted to
 # limit the files in that directory, e.g.:
@@ -44,10 +18,9 @@ output "public"
 
 # Here we specify a match block so we can apply a filter to
 # a subset of the files in our input directory. We're turning
-# our handlebars template files into javascript files using
-# the HandlebarsFilter we defined earlier.
+# our handlebars template files into javascript files.
 match "**/*.handlebars" do
-  filter HandlebarsFilter
+  handlebars
 end
 
 # Now we match all the rest of the JavaScript files. Because the

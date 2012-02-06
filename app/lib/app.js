@@ -1,5 +1,5 @@
-minispade.require('todos/vendor/jquery');
-minispade.require('todos/vendor/ember');
+minispade.require('todos/vendor/jquery-1.7.1');
+minispade.require('todos/vendor/ember-0.9.4');
 minispade.require('todos/templates/main_view');
 
 Todos = Ember.Application.create();
