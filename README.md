@@ -1,7 +1,7 @@
 Todos
 =====
 
-The obligatory todos example. This one uses (rake-pipeline)[https://github.com/livingsocial/rake-pipeline].
+The obligatory todos example. This one uses [rake-pipeline](https://github.com/livingsocial/rake-pipeline).
 
 The Assetfile is pretty heavily commented, so if you'd like to know more about how to use
 rake-pipeline in real life, you should check it out.
