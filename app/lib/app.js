@@ -1,15 +1,15 @@
-minispade.require('todos/vendor/jquery-1.7.1');
-minispade.require('todos/vendor/ember-0.9.4');
-minispade.require('todos/templates/main_view');
+require('todos/vendor/jquery-1.7.1');
+require('todos/vendor/ember-0.9.5');
+require('todos/templates/main_view');
 
 Todos = Ember.Application.create();
 
-Todos.Todo = Em.Object.extend({
+Todos.Todo = Ember.Object.extend({
   title: null,
   isDone: false
 });
 
-Todos.todosController = Em.ArrayProxy.create({
+Todos.todosController = Ember.ArrayController.create({
   content: [],
 
   createTodo: function(title) {
@@ -25,27 +25,22 @@ Todos.todosController = Em.ArrayProxy.create({
     return this.filterProperty('isDone', false).get('length');
   }.property('@each.isDone'),
 
+  isEmpty: function() {
+    return this.get('length') === 0;
+  }.property('length'),
+
   allAreDone: function(key, value) {
-    if (value !== undefined) {
+    if (arguments.length === 2) {
       this.setEach('isDone', value);
 
       return value;
     } else {
-      return !!this.get('length') && this.everyProperty('isDone', true);
+      return !this.get('isEmpty') && this.everyProperty('isDone', true);
     }
   }.property('@each.isDone')
 });
 
-Todos.StatsView = Em.View.extend({
-  remainingBinding: 'Todos.todosController.remaining',
-
-  remainingString: function() {
-    var remaining = this.get('remaining');
-    return remaining + (remaining === 1 ? " item" : " items");
-  }.property('remaining')
-});
-
-Todos.CreateTodoView = Em.TextField.extend({
+Todos.CreateTodoView = Ember.TextField.extend({
   insertNewline: function() {
     var value = this.get('value');
 
@@ -56,6 +51,6 @@ Todos.CreateTodoView = Em.TextField.extend({
   }
 });
 
-Todos.MainView = Em.View.extend({
+Todos.MainView = Ember.View.extend({
   templateName: 'main_view'
 });
