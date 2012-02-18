@@ -30,7 +30,9 @@ input "app" do
     # The minispade helper wraps each JS file in some code to
     # register it with the [minispade](https://github.com/wycats/minispade)
     # module loader.
-    minispade :module_id_generator => proc { |input|
+
+    minispade :rewrite_requires => true,
+              :module_id_generator => proc { |input|
       # The `:module_id_generator` option customizes the name each file
       # gets registered under. Here we're changing a name like this:
       #    lib/vendor/ember.js
