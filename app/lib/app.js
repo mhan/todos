@@ -1,19 +1,34 @@
-require('todos/vendor/jquery-1.7.1');
-require('todos/vendor/ember-0.9.5');
-require('todos/templates/main_view');
+require('todos/vendor/jquery.min');
+require('todos/vendor/handlebars');
+require('todos/vendor/ember-1.0.0-rc.3');
+require('todos/templates/todos');
 
-Todos = Ember.Application.create();
+App = Ember.Application.create();
 
-Todos.Todo = Ember.Object.extend({
+App.Router.map(function() {
+    this.route('todos', { path: '/todos' });
+});
+
+App.IndexRoute = Ember.Route.extend({
+    redirect: function() {
+        this.transitionTo('todos');
+    }
+});
+
+App.TodosRoute = Ember.Route.extend({
+    setupController: function(controller, model) {
+        controller.set('content', []);
+    }
+});
+
+App.Todo = Ember.Object.extend({
   title: null,
   isDone: false
 });
 
-Todos.todosController = Ember.ArrayController.create({
-  content: [],
-
+App.TodosController = Ember.ArrayController.extend({
   createTodo: function(title) {
-    var todo = Todos.Todo.create({ title: title });
+    var todo = App.Todo.create({ title: title });
     this.pushObject(todo);
   },
 
@@ -40,17 +55,13 @@ Todos.todosController = Ember.ArrayController.create({
   }.property('@each.isDone')
 });
 
-Todos.CreateTodoView = Ember.TextField.extend({
+App.CreateTodoView = Ember.TextField.extend({
   insertNewline: function() {
     var value = this.get('value');
 
     if (value) {
-      Todos.todosController.createTodo(value);
+      this.get('controller').send('createTodo', value);
       this.set('value', '');
     }
   }
-});
-
-Todos.MainView = Ember.View.extend({
-  templateName: 'main_view'
 });

@@ -56,11 +56,6 @@ body {
   background-color: #fff;
   padding: ($header-height + $padding * 2) $padding $padding;
 
-  .mark-all-done label {
-    margin-left: 5px;
-    font-weight: bold;
-  }
-
   #stats {
     overflow: hidden;
     width: 100%;
@@ -75,7 +70,7 @@ body {
       float: left;
     }
 
-    .ember-button {
+    button {
       @include background-image(linear-gradient(#F9F9F9 1%, #DDD, #F2F2F2, #F7F7F7));
       border: 1px solid #828282;
       color: #000;
@@ -129,6 +124,11 @@ body {
     input[type="checkbox"] {
       margin-right: 7px;
     }
+  }
+
+  label {
+    margin-left: 5px;
+    font-weight: bold;
   }
 
   ul {
